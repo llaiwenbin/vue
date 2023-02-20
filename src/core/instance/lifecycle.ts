@@ -34,12 +34,15 @@ export function setActiveInstance(vm: Component) {
 export function initLifecycle(vm: Component) {
   const options = vm.$options
 
-  // locate first non-abstract parent
+  //  找到第一个非抽象父级
   let parent = options.parent
   if (parent && !options.abstract) {
+    // 使用 while 循环查找第一个非抽象的父组件
+    // 抽象组件一般不渲染例如Vue内置的 keep-alive 或者 transition
     while (parent.$options.abstract && parent.$parent) {
       parent = parent.$parent
     }
+    // 经过上面的 while 循环后，parent 应该是一个非抽象的组件，将它作为当前实例的父级，所以将当前实例 vm 添加到父级的 $children 属性里
     parent.$children.push(vm)
   }
 

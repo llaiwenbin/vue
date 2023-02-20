@@ -6,6 +6,7 @@ import { warn, makeMap, isNative } from '../util/index'
 let initProxy
 
 if (__DEV__) {
+  // makeMap 方法值得借鉴，查询速度快
   const allowedGlobals = makeMap(
     'Infinity,undefined,NaN,isFinite,isNaN,' +
       'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
@@ -85,8 +86,11 @@ if (__DEV__) {
     if (hasProxy) {
       // determine which proxy handler to use
       const options = vm.$options
+      // options.render._withStripped 这个属性只在测试代码中出现过，所以一般情况下这个条件都会为假
       const handlers =
         options.render && options.render._withStripped ? getHandler : hasHandler
+      // 如果不符合获取vm数据的条件则会警告
+      // 在渲染的时候引用了 key，但是在实例对象上并没有定义 key 这个属性或方法
       vm._renderProxy = new Proxy(vm, handlers)
     } else {
       vm._renderProxy = vm

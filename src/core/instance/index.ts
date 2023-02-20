@@ -8,6 +8,7 @@ import type { GlobalAPI } from 'types/global-api'
 
 function Vue(options) {
   if (__DEV__ && !(this instanceof Vue)) {
+    // 对提示方法进行统一的封装，方便统一处理
     warn('Vue is a constructor and should be called with the `new` keyword')
   }
   this._init(options)

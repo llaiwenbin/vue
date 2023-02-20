@@ -12,6 +12,7 @@ let pending = false
 function flushCallbacks() {
   pending = false
   const copies = callbacks.slice(0)
+  // 清除callbacks列表
   callbacks.length = 0
   for (let i = 0; i < copies.length; i++) {
     copies[i]()
@@ -57,9 +58,9 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
     // PhantomJS and iOS 7.x
     MutationObserver.toString() === '[object MutationObserverConstructor]')
 ) {
-  // Use MutationObserver where native Promise is not available,
-  // e.g. PhantomJS, iOS7, Android 4.4
-  // (#6466 MutationObserver is unreliable in IE11)
+  // 在原生 Promise 不可用的地方使用 MutationObserver，
+  // 例如PhantomJS, iOS7, Android 4.4
+  // （#6466 MutationObserver 在 IE11 中不可靠）
   let counter = 1
   const observer = new MutationObserver(flushCallbacks)
   const textNode = document.createTextNode(String(counter))
@@ -72,9 +73,9 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   }
   isUsingMicroTask = true
 } else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
-  // Fallback to setImmediate.
-  // Technically it leverages the (macro) task queue,
-  // but it is still a better choice than setTimeout.
+  // 回退到 setImmediate。
+  // 从技术上讲，它利用了（宏）任务队列，
+  // 但它仍然是比 setTimeout 更好的选择。
   timerFunc = () => {
     setImmediate(flushCallbacks)
   }
@@ -93,6 +94,8 @@ export function nextTick<T>(cb: (this: T, ...args: any[]) => any, ctx: T): void
  */
 export function nextTick(cb?: (...args: any[]) => any, ctx?: object) {
   let _resolve
+  // 如果有promise走微任务，如果没有就把数据放 callbacks 等待 timerFunc 执行。
+  // 此时应该每渲染一次都会执行 timerFunc，pending就为false，此时nextTick囤积队列清空重新获取任务队列
   callbacks.push(() => {
     if (cb) {
       try {

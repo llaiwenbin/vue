@@ -49,6 +49,9 @@ export function initMixin(Vue: typeof Component) {
       )
     }
     /* istanbul ignore else */
+    // Vue.prototype._render
+    // vnode = render.call(vm._renderProxy, vm.$createElement)
+    // 主要用于开发环境渲染时获取数据错误时的警告，全局搜索即可
     if (__DEV__) {
       initProxy(vm)
     } else {
@@ -56,9 +59,11 @@ export function initMixin(Vue: typeof Component) {
     }
     // expose real self
     vm._self = vm
+
     initLifecycle(vm)
     initEvents(vm)
     initRender(vm)
+    // 抽离统一钩子方法、模板模式可以使用
     callHook(vm, 'beforeCreate', undefined, false /* setContext */)
     initInjections(vm) // resolve injections before data/props
     initState(vm)

@@ -57,10 +57,6 @@
     "release": "node scripts/release.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verify-commit-msg.js"
-  },
   "lint-staged": {
     "*.js": [
       "prettier --write"
@@ -84,6 +80,7 @@
   "homepage": "https://github.com/vuejs/vue#readme",
   "dependencies": {
     "@vue/compiler-sfc": "workspace:*",
+    "@vue/consolidate": "^0.17.3",
     "csstype": "^3.1.0"
   },
   "devDependencies": {

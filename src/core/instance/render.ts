@@ -32,19 +32,19 @@ export function initRender(vm: Component) {
         vm.$slots
       )
     : emptyObject
-  // bind the createElement fn to this instance
-  // so that we get proper render context inside it.
+  // 将 createElement fn 绑定到这个实例
+  // 这样我们就可以在其中获得正确的渲染上下文。
   // args order: tag, data, children, normalizationType, alwaysNormalize
-  // internal version is used by render functions compiled from templates
+  // 内部版本由从模板编译的渲染函数使用
   // @ts-expect-error
   vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false)
-  // normalization is always applied for the public version, used in
-  // user-written render functions.
+  // 规范化始终应用于公共版本，用于
+  // 用户编写的渲染函数。
   // @ts-expect-error
   vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)
 
-  // $attrs & $listeners are exposed for easier HOC creation.
-  // they need to be reactive so that HOCs using them are always updated
+  // $attrs 和 $listeners 被公开以便更容易地创建 HOC。
+  // 它们需要具有反应性，以便使用它们的 HOC 始终得到更新
   const parentData = parentVnode && parentVnode.data
 
   /* istanbul ignore else */

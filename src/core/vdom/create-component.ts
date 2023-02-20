@@ -210,9 +210,9 @@ export function createComponent(
 }
 
 export function createComponentInstanceForVnode(
-  // we know it's MountedComponentVNode but flow doesn't
+  // 我们知道它是 MountedComponentVNode 但 flow 不知道
   vnode: any,
-  // activeInstance in lifecycle state
+  // 处于生命周期状态的 activeInstance
   parent?: any
 ): Component {
   const options: InternalComponentOptions = {
@@ -220,7 +220,7 @@ export function createComponentInstanceForVnode(
     _parentVnode: vnode,
     parent
   }
-  // check inline-template render functions
+  // 检查内联模板渲染函数
   const inlineTemplate = vnode.data.inlineTemplate
   if (isDef(inlineTemplate)) {
     options.render = inlineTemplate.render
