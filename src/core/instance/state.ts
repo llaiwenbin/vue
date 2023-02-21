@@ -38,7 +38,7 @@ const sharedPropertyDefinition = {
   get: noop,
   set: noop
 }
-
+// 访问this.xxx => this._data.xxx
 export function proxy(target: Object, sourceKey: string, key: string) {
   sharedPropertyDefinition.get = function proxyGetter() {
     return this[sourceKey][key]
@@ -57,9 +57,11 @@ export function initState(vm: Component) {
   initSetup(vm)
 
   if (opts.methods) initMethods(vm, opts.methods)
+  // 由于 props 比 data 先执行所以props中可以对data值进行初始化
   if (opts.data) {
     initData(vm)
   } else {
+    // 调用 observe 函数将 data 数据对象转换成响应式
     const ob = observe((vm._data = {}))
     ob && ob.vmCount++
   }
@@ -72,11 +74,11 @@ export function initState(vm: Component) {
 function initProps(vm: Component, propsOptions: Object) {
   const propsData = vm.$options.propsData || {}
   const props = (vm._props = shallowReactive({}))
-  // cache prop keys so that future props updates can iterate using Array
-  // instead of dynamic object key enumeration.
+  // 缓存props keys 以便将来的道具更新可以使用数组进行迭代
+  // 而不是动态对象键枚举。
   const keys: string[] = (vm.$options._propKeys = [])
   const isRoot = !vm.$parent
-  // root instance props should be converted
+  // 应转换根实例props
   if (!isRoot) {
     toggleObserving(false)
   }

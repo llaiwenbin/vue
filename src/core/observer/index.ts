@@ -22,8 +22,8 @@ const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 const NO_INITIAL_VALUE = {}
 
 /**
- * In some cases we may want to disable observation inside a component's
- * update computation.
+ * 在某些情况下，我们可能希望在组件的内部禁用观察
+ * 更新计算。
  */
 export let shouldObserve: boolean = true
 

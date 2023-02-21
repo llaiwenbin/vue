@@ -125,7 +125,7 @@ export function makeMap(
 export const isBuiltInTag = makeMap('slot,component', true)
 
 /**
- * Check if an attribute is a reserved attribute.
+ * 检查属性是否为保留属性。
  */
 export const isReservedAttribute = makeMap('key,ref,slot,slot-scope,is')
 
@@ -182,7 +182,7 @@ export const capitalize = cached((str: string): string => {
 })
 
 /**
- * Hyphenate a camelCase string.
+ * 连字符驼峰字符串。
  */
 const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = cached((str: string): string => {
